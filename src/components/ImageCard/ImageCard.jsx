@@ -1,18 +1,23 @@
+import css from './ImageCard.module.css';
 
-const ImageCard = ({image}) => {
+const ImageCard = ({image, getImageCard, openModal}) => {
   return (
     <div>
-     
-        <img src={image.urls.small} alt={image.description} />
-        <h1>Description: {image.description}</h1>
-        <p>Likes: { image.likes}</p>
-        <h2>Autore image: { image.user.name}</h2>
-    
+      <img
+        className={css.img}
+        src={image.urls.small}
+        alt={image.description}
+        onClick={() => {
+          getImageCard(image);
+          openModal();
+        }} />
     </div>
   )
 }
 
 export default ImageCard
+
+
 
 // {
 //   "total": 133,

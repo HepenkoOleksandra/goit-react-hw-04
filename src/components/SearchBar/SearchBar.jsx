@@ -1,6 +1,6 @@
 import toast, { Toaster } from 'react-hot-toast';
-
-// const notify = () => toast('Here is your toast.');
+import css from './SearchBar.module.css';
+import { FcSearch } from "react-icons/fc";
 
 const SearchBar = ({onFormSubmit}) => {
     const handleSubmit = (e) => {
@@ -11,21 +11,21 @@ const SearchBar = ({onFormSubmit}) => {
             return;
         }
         const value = e.currentTarget.elements.query.value.trim();
-        console.log(value);
         onFormSubmit(value);
   }
   
     return (
-    <header>
-  <form onSubmit={handleSubmit}>  
+    <header className={css.header}>
+  <form onSubmit={handleSubmit} className={css.form}>  
     <input
         type="text"
         name="query"
-    //   autocomplete="off"
-    //   autofocus
+      // autocomplete="off"
+            // autofocus
+            className={css.search}
       placeholder="Search images and photos"
     />
-    <button type="submit" >Search</button>
+    <button type="submit" className={css.button}><FcSearch /></button>
     <Toaster />           
   </form>
 </header>
