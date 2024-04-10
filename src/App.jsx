@@ -1,17 +1,12 @@
-// import { useState } from 'react'
-import './App.css'
-// import SearchBar from "./components/SearchBar/SearchBar";
+import { useEffect, useState } from "react";
+import { getImages } from "./apiService/photos";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import SearchBar from "./components/SearchBar/SearchBar";
-import { useEffect, useState } from "react";
-import { getImages } from "./apiService/photos";
-
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-// Modal.setAppElement('#yourAppElement');
+import './App.css';
 
 function App() {
   const [images, setImages] = useState([]);
@@ -19,7 +14,7 @@ function App() {
   const [isError, setIsError] = useState(null);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
-
+  const [showBtn, setShowBtn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageCard, setImageCard] = useState(null);
     
@@ -27,13 +22,12 @@ function App() {
     if (query.length === 0) return;
 
     async function fetchImages() {
-        
       setIsError(false);
       setIsLoading(true);
-      
       try {
         const data = await getImages(query, page);
         setImages((prevImages) => [...prevImages, ...data.results]);
+        setShowBtn(data.total_pages > page);
       } catch (error) {
         setIsError(error.message);
       } finally {
@@ -49,6 +43,7 @@ function App() {
     setQuery(searchWord);
     setImages([]);
     setPage(1);
+    setShowBtn(false);
   };
 
   const handleLoadMore = () => {
@@ -68,21 +63,18 @@ function App() {
   }
 
   return (
-  <div className='container'>
+    <div className='container'>
       <SearchBar onFormSubmit={onSetSearchQuery} /> 
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
       {images.length > 0 && <ImageGallery images={images} getImageCard={getImageCard} openModal={openModal} />}
-      {images.length > 0 && <LoadMoreBtn onClick={handleLoadMore}>Load more</LoadMoreBtn>}
-      {/* <ImageModal images={images} /> */}
+      {showBtn && <LoadMoreBtn onClick={handleLoadMore}>Load more</LoadMoreBtn>}
       {imageCard && (<ImageModal
         isOpen={isModalOpen}
         onClose={closeModal}
         card={imageCard}/>)}  
-  </div>
+    </div>
   )
 }
-
-// ReactDOM.render(<App />, appElement);
 
 export default App
