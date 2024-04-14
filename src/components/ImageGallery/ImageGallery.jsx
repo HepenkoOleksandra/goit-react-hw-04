@@ -3,14 +3,15 @@ import css from './ImageGallery.module.css';
 
 const ImageGallery = ({images, getImageCard, openModal}) => {
   return (
-      <ul className={css.gallery}>
-      <li className={css.galleryList}>
+      <ul className={css.galleryList}>
+      
         {Array.isArray(images) && images.map((image) => {
           return (
-            <ImageCard key={image.id} image={image} getImageCard={getImageCard} openModal={openModal} />
-          )
+            <li key={image.id} >
+              <ImageCard image={image} getImageCard={getImageCard} openModal={openModal} />
+           </li>)
         })}
-        </li>
+       
       </ul>
   )
 }

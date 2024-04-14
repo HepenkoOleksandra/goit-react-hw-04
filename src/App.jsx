@@ -67,7 +67,7 @@ function App() {
       <SearchBar onFormSubmit={onSetSearchQuery} /> 
       {isLoading && <Loader />}
       {isError && <ErrorMessage />}
-      {images.length > 0 && <ImageGallery images={images} getImageCard={getImageCard} openModal={openModal} />}
+      {images.length > 0 && <ImageGallery  images={images} getImageCard={getImageCard} openModal={openModal} />}
       {showBtn && <LoadMoreBtn onClick={handleLoadMore}>Load more</LoadMoreBtn>}
       {imageCard && (<ImageModal
         isOpen={isModalOpen}
